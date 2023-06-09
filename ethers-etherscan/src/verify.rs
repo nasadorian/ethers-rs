@@ -125,6 +125,12 @@ pub struct VerifyProxyContract {
     pub expected_impl: Option<Address>,
 }
 
+impl VerifyProxyContract {
+    pub fn new(address: Address, expected_impl: Option<Address>) -> Self {
+        Self { address, expected_impl }
+    }
+}
+
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
 pub enum CodeFormat {
     #[serde(rename = "solidity-single-file")]
