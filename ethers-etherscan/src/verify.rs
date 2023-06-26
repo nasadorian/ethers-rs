@@ -180,6 +180,7 @@ impl Client {
         contract: &VerifyProxyContract,
     ) -> Result<Response<String>> {
         let body = self.create_query("contract", "verifyproxycontract", contract);
+        println!("{body}");
         self.post_form(&body).await
     }
 
