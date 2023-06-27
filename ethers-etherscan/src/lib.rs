@@ -89,17 +89,17 @@ impl Client {
                 .map_err(Into::into),
 
             // Backwards compatibility, ideally these should return an error.
-            Chain::XDai |
-            Chain::Chiado |
-            Chain::Sepolia |
-            Chain::Rsk |
-            Chain::Sokol |
-            Chain::Poa |
-            Chain::Oasis |
-            Chain::Emerald |
-            Chain::EmeraldTestnet |
-            Chain::Evmos |
-            Chain::EvmosTestnet => Ok(String::new()),
+            Chain::XDai
+            | Chain::Chiado
+            | Chain::Sepolia
+            | Chain::Rsk
+            | Chain::Sokol
+            | Chain::Poa
+            | Chain::Oasis
+            | Chain::Emerald
+            | Chain::EmeraldTestnet
+            | Chain::Evmos
+            | Chain::EvmosTestnet => Ok(String::new()),
             Chain::AnvilHardhat | Chain::Dev => Err(EtherscanError::LocalNetworksNotSupported),
 
             _ => chain
@@ -188,6 +188,7 @@ impl Client {
     /// Execute a POST request with a form, without sanity checking the response.
     async fn post<F: Serialize>(&self, form: &F) -> Result<String> {
         trace!(target: "etherscan", "POST {}", self.etherscan_api_url);
+        println!("POST {} {form}", self.etherscan_api_url);
         let response = self
             .client
             .post(self.etherscan_api_url.clone())
@@ -219,9 +220,9 @@ impl Client {
             ResponseData::Error { result, message, status } => {
                 if let Some(ref result) = result {
                     if result.starts_with("Max rate limit reached") {
-                        return Err(EtherscanError::RateLimitExceeded)
+                        return Err(EtherscanError::RateLimitExceeded);
                     } else if result.to_lowercase() == "invalid api key" {
-                        return Err(EtherscanError::InvalidApiKey)
+                        return Err(EtherscanError::InvalidApiKey);
                     }
                 }
                 Err(EtherscanError::ErrorResponse { status, message, result })
@@ -408,10 +409,10 @@ impl Cache {
                 .checked_sub(Duration::from_secs(inner.expiry))
                 .is_some()
             {
-                return None
+                return None;
             }
 
-            return Some(inner.data)
+            return Some(inner.data);
         }
         None
     }
