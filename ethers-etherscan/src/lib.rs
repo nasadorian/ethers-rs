@@ -188,7 +188,8 @@ impl Client {
     /// Execute a POST request with a form, without sanity checking the response.
     async fn post<F: Serialize>(&self, form: &F) -> Result<String> {
         trace!(target: "etherscan", "POST {}", self.etherscan_api_url);
-        println!("POST {} {form:?}", self.etherscan_api_url);
+        let form2 = serde_json::to_string(&form);
+        println!("POST {} {form2}", self.etherscan_api_url);
         let response = self
             .client
             .post(self.etherscan_api_url.clone())
